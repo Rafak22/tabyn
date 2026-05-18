@@ -9,7 +9,7 @@
 ![FAISS](https://img.shields.io/badge/FAISS-Vector%20DB-green)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-teal)
 
-**مشروع تخرج | جامعة الإمام عبدالرحمن بن فيصل | 2026**
+**مشروع نهائي | معسكر الذكاء الاصطناعي التطبيقي | اكاديمية سدايا **
 
 </div>
 
@@ -231,12 +231,11 @@ python update_kb.py
 | الاسم | الدور |
 |-------|-------|
 | رفا الشريف | Knowledge Base + RAG Pipeline + واجهات المستخدم |
-| فاطمة | Agent Logic + LangGraph |
-| نورة | LLM Integration + API |
+| فاطمة الغامدي  | Agent Logic + LangGraph |
+| سارة الخثعمي | LLM Integration + API |
 
-**المشرف**: د. [اسم المشرف]
-**الجامعة**: جامعة الإمام عبدالرحمن بن فيصل (IAU)
-**القسم**: علوم الحاسب — تخصص الذكاء الاصطناعي
+**المشرف**:  محمد بدار
+**الجهة**: اكاديمية سدايا 
 **السنة**: 2026
 
 ---
