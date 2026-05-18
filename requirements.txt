@@ -1,0 +1,7 @@
+feedparser==6.0.11
+requests==2.33.1
+beautifulsoup4==4.12.3
+lxml==5.2.1
+tqdm==4.66.4
+datasets>=4.0.0
+telethon==1.43.2

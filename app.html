@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تبيَّن | نظام التحقق من الأخبار العربية</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.3.0/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Tajawal', sans-serif; background: #F4F7F6; color: #1a1a1a; direction: rtl; }
+.nav { background: white; border-bottom: 1px solid #E2EDE9; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 8px rgba(0,0,0,0.04); }
+.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo-icon { width: 36px; height: 36px; background: #1D9E75; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
+.logo-text { font-size: 20px; font-weight: 700; color: #0F6E56; }
+.logo-sub { font-size: 11px; color: #888; margin-top: -2px; }
+.page { max-width: 860px; margin: 0 auto; padding: 2rem; }
+.hero { text-align: center; padding: 2.5rem 1rem 2rem; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #E1F5EE; color: #0F6E56; font-size: 13px; font-weight: 500; padding: 5px 16px; border-radius: 100px; margin-bottom: 1rem; }
+.hero h1 { font-size: 30px; font-weight: 700; color: #0D1F18; margin-bottom: 10px; }
+.hero p { font-size: 15px; color: #666; line-height: 1.7; max-width: 560px; margin: 0 auto; }
+.card { background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid #E2EDE9; margin-bottom: 1.5rem; box-shadow: 0 1px 6px rgba(0,0,0,0.03); }
+.input-toggle { display: flex; gap: 8px; margin-bottom: 1.25rem; }
+.toggle-btn { flex: 1; padding: 10px; border: 1.5px solid #E2EDE9; border-radius: 10px; background: #FAFAFA; color: #666; font-size: 14px; font-weight: 500; font-family: 'Tajawal', sans-serif; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.toggle-btn:hover { border-color: #1D9E75; color: #0F6E56; }
+.toggle-btn.active { border-color: #1D9E75; background: #E1F5EE; color: #0F6E56; font-weight: 700; }
+.input-section { display: none; }
+.input-section.active { display: block; }
+.input-label { font-size: 13px; font-weight: 500; color: #555; margin-bottom: 6px; display: block; }
+.claim-input { width: 100%; padding: 12px 14px; font-size: 15px; font-family: 'Tajawal', sans-serif; border: 1.5px solid #E2EDE9; border-radius: 10px; background: #FAFCFB; color: #1a1a1a; resize: vertical; min-height: 100px; line-height: 1.7; transition: border-color 0.15s; }
+.claim-input:focus { outline: none; border-color: #1D9E75; background: white; }
+.img-upload { border: 2px dashed #C5DDD6; border-radius: 14px; padding: 2.5rem; text-align: center; cursor: pointer; transition: all 0.15s; margin-bottom: 1rem; }
+.img-upload:hover { border-color: #1D9E75; background: #F0FBF7; }
+.img-upload i { font-size: 40px; color: #9FE1CB; margin-bottom: 10px; display: block; }
+.img-upload p { font-size: 15px; color: #555; font-weight: 500; }
+.img-upload span { font-size: 12px; color: #999; margin-top: 4px; display: block; }
+#img-preview { display: none; margin-bottom: 1rem; }
+#preview-img { max-width: 100%; border-radius: 10px; border: 1px solid #E2EDE9; }
+.handle-row { display: flex; gap: 12px; align-items: flex-end; margin-top: 1rem; }
+.handle-input { flex: 1; padding: 10px 14px; font-size: 14px; font-family: 'Tajawal', sans-serif; border: 1.5px solid #E2EDE9; border-radius: 10px; background: #FAFCFB; color: #1a1a1a; transition: border-color 0.15s; }
+.handle-input:focus { outline: none; border-color: #1D9E75; }
+.verify-btn { padding: 10px 28px; background: #1D9E75; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; font-family: 'Tajawal', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.15s; white-space: nowrap; }
+.verify-btn:hover { background: #0F6E56; }
+.verify-btn:disabled { background: #9FE1CB; cursor: not-allowed; }
+.result-card { background: white; border-radius: 16px; border: 1px solid #E2EDE9; overflow: hidden; margin-top: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); animation: fadeUp 0.3s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.result-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #F0F5F3; }
+.verdict-badge { padding: 7px 18px; border-radius: 100px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.v-true { background: #E1F5EE; color: #0F6E56; }
+.v-false { background: #FCEBEB; color: #A32D2D; }
+.v-misleading { background: #FAEEDA; color: #854F0B; }
+.v-nei { background: #F1EFE8; color: #5F5E5A; }
+.conf-bar { flex:1; height:7px; background:#F0F5F3; border-radius:100px; overflow:hidden; }
+.conf-fill { height:100%; border-radius:100px; transition: width 0.6s ease; }
+.conf-pct { font-size:14px; font-weight:700; min-width:40px; text-align:left; }
+.result-body { padding: 1.5rem; }
+.section-title { font-size: 12px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; margin-top: 1.25rem; }
+.section-title:first-child { margin-top: 0; }
+.justification { font-size: 15px; color: #333; line-height: 1.8; padding: 14px 16px; background: #F8FAFA; border-radius: 10px; border-right: 3px solid #1D9E75; }
+.debate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.debate-card { padding: 12px 14px; border-radius: 10px; background: #FAFAFA; border: 1px solid #EEE; }
+.debate-card.defense { border-right: 3px solid #1D9E75; }
+.debate-card.prosecution { border-right: 3px solid #E24B4A; }
+.debate-role { font-size: 12px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+.debate-card.defense .debate-role { color: #0F6E56; }
+.debate-card.prosecution .debate-role { color: #A32D2D; }
+.debate-text { font-size: 13px; color: #555; line-height: 1.6; }
+.citation-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #F0F0F0; font-size: 13px; }
+.citation-item:last-child { border-bottom: none; }
+.citation-source { background: #E1F5EE; color: #0F6E56; padding: 3px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.citation-text { flex: 1; color: #555; }
+.citation-date { color: #999; font-size: 11px; white-space: nowrap; }
+.trace-log { font-size: 12px; font-family: monospace; color: #888; background: #F8FAFA; border-radius: 10px; padding: 12px 14px; line-height: 2; }
+.extracted-box { margin-bottom: 12px; padding: 12px 16px; background: #F0FBF7; border-radius: 10px; font-size: 13px; color: #555; border-right: 3px solid #1D9E75; }
+.loading-box { text-align: center; padding: 3rem; }
+.spinner { width: 36px; height: 36px; border: 3px solid #E2EDE9; border-top-color: #1D9E75; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.steps-list { list-style: none; margin-top: 1rem; }
+.step-item { font-size: 14px; color: #999; padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+.step-item.done { color: #1D9E75; }
+.step-item.active { color: #333; font-weight: 700; }
+.error-box { background: #FCEBEB; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; gap: 12px; color: #A32D2D; font-size: 14px; margin-top: 1rem; }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="#">
+    <div class="logo-icon"><i class="ti ti-shield-check"></i></div>
+    <div>
+      <div class="logo-text">تبيَّن</div>
+      <div class="logo-sub">نظام التحقق من الأخبار</div>
+    </div>
+  </a>
+</nav>
+<div class="page">
+  <div class="hero">
+    <div class="hero-badge"><i class="ti ti-sparkles"></i> مدعوم بالذكاء الاصطناعي</div>
+    <h1>تحقق من أي ادعاء إخباري</h1>
+    <p>أدخل نص الادعاء أو ارفع صورة وسيقوم النظام بالبحث في أكثر من 11,600 مقالة موثوقة</p>
+  </div>
+  <div class="card">
+    <div class="input-toggle">
+      <button class="toggle-btn active" id="btn-text" onclick="switchInput('text')">
+        <i class="ti ti-text-size"></i> تحقق من نص
+      </button>
+      <button class="toggle-btn" id="btn-image" onclick="switchInput('image')">
+        <i class="ti ti-photo"></i> تحقق من صورة
+      </button>
+    </div>
+    <div class="input-section active" id="section-text">
+      <label class="input-label">نص الادعاء</label>
+      <textarea class="claim-input" id="claim-text" placeholder="مثال: أعلنت وزارة التعليم إلزام الطلاب بدراسة الذكاء الاصطناعي..."></textarea>
+    </div>
+    <div class="input-section" id="section-image">
+      <div class="img-upload" id="upload-zone" onclick="document.getElementById('img-input').click()">
+        <i class="ti ti-cloud-upload"></i>
+        <p>اضغط لرفع صورة أو اسحبها هنا</p>
+        <span>PNG, JPG, WEBP — بحد أقصى 10MB</span>
+        <input type="file" id="img-input" accept="image/*" style="display:none" onchange="handleImage(event)" />
+      </div>
+      <div id="img-preview"><img id="preview-img" /></div>
+    </div>
+    <div class="handle-row">
+      <div style="flex:1">
+        <label class="input-label">حساب المصدر (اختياري)</label>
+        <input class="handle-input" id="handle-text" placeholder="مثال: SaudiNews50@" />
+      </div>
+      <button class="verify-btn" id="verify-btn" onclick="runVerify()">
+        <i class="ti ti-shield-search"></i> تحقق الآن
+      </button>
+    </div>
+  </div>
+  <div id="result"></div>
+</div>
+<script>
+const API='http://localhost:8000';
+let currentMode='text';
+const VL={confirmed_true:'✓ صحيح',confirmed_false:'✗ خاطئ',misleading:'⚠ مضلل',nei:'— غير محدد'};
+const VC={confirmed_true:'v-true',confirmed_false:'v-false',misleading:'v-misleading',nei:'v-nei'};
+const VCL={confirmed_true:'#1D9E75',confirmed_false:'#E24B4A',misleading:'#EF9F27',nei:'#888'};
+function switchInput(mode){currentMode=mode;document.getElementById('section-text').classList.toggle('active',mode==='text');document.getElementById('section-image').classList.toggle('active',mode==='image');document.getElementById('btn-text').classList.toggle('active',mode==='text');document.getElementById('btn-image').classList.toggle('active',mode==='image');document.getElementById('result').innerHTML='';}
+function handleImage(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{document.getElementById('preview-img').src=ev.target.result;document.getElementById('img-preview').style.display='block';document.getElementById('upload-zone').style.display='none';};r.readAsDataURL(file);}
+function showLoading(){document.getElementById('result').innerHTML=`<div class="result-card"><div class="loading-box"><div class="spinner"></div><p style="font-weight:700;font-size:15px;margin-bottom:8px;">جاري التحقق من الادعاء</p><ul class="steps-list"><li class="step-item done"><i class="ti ti-check"></i> فحص سمعة الحساب</li><li class="step-item done"><i class="ti ti-check"></i> توليد استعلامات البحث</li><li class="step-item active"><i class="ti ti-loader"></i> البحث في 11,629 مقالة</li><li class="step-item"><i class="ti ti-dots"></i> تحليل الأدلة</li><li class="step-item"><i class="ti ti-dots"></i> إصدار الحكم النهائي</li></ul></div></div>`;}
+function renderResult(data){const pct=Math.round(data.confidence*100);const citations=(data.citations||[]).slice(0,4);let html='';if(data.image_extracted_text){html+=`<div class="extracted-box"><strong style="color:#0F6E56;"><i class="ti ti-text-recognition"></i> النص المستخرج من الصورة:</strong><br>${data.image_extracted_text}</div>`;}
+html+=`<div class="result-card"><div class="result-header"><span class="verdict-badge ${VC[data.verdict]||'v-nei'}">${VL[data.verdict]||data.verdict}</span><div class="conf-bar"><div class="conf-fill" style="width:${pct}%;background:${VCL[data.verdict]||'#888'}"></div></div><span class="conf-pct" style="color:${VCL[data.verdict]||'#888'}">${pct}%</span></div><div class="result-body"><div class="section-title">التبرير</div><div class="justification">${data.justification}</div>${data.defense_argument||data.prosecution_argument?`<div class="section-title">تحليل الوكيل</div><div class="debate-grid"><div class="debate-card defense"><div class="debate-role"><i class="ti ti-shield"></i> حجة الدعم</div><div class="debate-text">${data.defense_argument||'—'}</div></div><div class="debate-card prosecution"><div class="debate-role"><i class="ti ti-gavel"></i> حجة الرفض</div><div class="debate-text">${data.prosecution_argument||'—'}</div></div></div>`:''} ${citations.length>0?`<div class="section-title">المصادر</div>${citations.map(c=>`<div class="citation-item"><span class="citation-source">${c.source||''}</span><span class="citation-text">${c.quote||c.url||''}</span><span class="citation-date">${c.date||''}</span></div>`).join('')}`:''}${data.trace_log&&data.trace_log.length>0?`<div class="section-title">سجل التنفيذ</div><div class="trace-log">${data.trace_log.map(l=>'› '+l).join('<br>')}</div>`:''}<div style="font-size:12px;color:#999;margin-top:14px;text-align:left;">⏱ ${data.elapsed_seconds}s${data.loop_count>0?' · '+data.loop_count+' إعادة بحث':''}</div></div></div>`;
+document.getElementById('result').innerHTML=html;}
+function showError(msg){document.getElementById('result').innerHTML=`<div class="error-box"><i class="ti ti-wifi-off" style="font-size:24px;"></i><div><strong>تعذر الاتصال بالسيرفر</strong><br><span style="font-size:13px;">${msg}</span></div></div>`;}
+async function runVerify(){const handle=document.getElementById('handle-text').value.trim();const btn=document.getElementById('verify-btn');btn.disabled=true;btn.innerHTML='<div class="spinner" style="width:16px;height:16px;margin:0;border-width:2px;"></div> جاري التحقق...';showLoading();try{if(currentMode==='text'){const claim=document.getElementById('claim-text').value.trim();if(!claim){btn.disabled=false;btn.innerHTML='<i class="ti ti-shield-search"></i> تحقق الآن';return;}const res=await fetch(`${API}/verify`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({claim,source_handle:handle||null})});if(!res.ok)throw new Error();renderResult(await res.json());}else{const file=document.getElementById('img-input').files[0];if(!file){btn.disabled=false;btn.innerHTML='<i class="ti ti-shield-search"></i> تحقق الآن';return;}const fd=new FormData();fd.append('image',file);if(handle)fd.append('source_handle',handle);const res=await fetch(`${API}/verify-image`,{method:'POST',body:fd});if(!res.ok)throw new Error();renderResult(await res.json());}}catch(e){showError('تأكدي من تشغيل: python tabayyan.py');}btn.disabled=false;btn.innerHTML='<i class="ti ti-shield-search"></i> تحقق الآن';}
+document.addEventListener('DOMContentLoaded',()=>{document.getElementById('claim-text').addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='Enter')runVerify();});});
+</script>
+</body>
+</html>

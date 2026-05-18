@@ -1,0 +1,31 @@
+# Large dataset files
+data/benchmarks/AFND/
+data/benchmarks/Classified Arabic News.csv
+data/benchmarks/classified_arabic_news.json
+data/benchmarks/afnd_sample.json
+
+# Vector DB files
+chroma_db/
+faiss_index.bin
+faiss_meta.pkl
+C:/tabayyun/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Sensitive files
+suspicious_accounts.json
+
+# Env
+.env
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# Nitter scraper output
+nitter_scraper.py

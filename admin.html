@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تبيَّن | لوحة الإدارة</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.3.0/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Tajawal', sans-serif; background: #F4F7F6; color: #1a1a1a; direction: rtl; }
+.login-overlay { position: fixed; inset: 0; background: #0D1F18; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.login-box { background: #162E22; border: 1px solid #1D9E75; border-radius: 20px; padding: 2.5rem; width: 360px; text-align: center; }
+.login-icon { width: 64px; height: 64px; background: #1D9E75; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 32px; color: white; }
+.login-title { font-size: 22px; font-weight: 700; color: white; margin-bottom: 6px; }
+.login-sub { font-size: 13px; color: #9FE1CB; margin-bottom: 1.5rem; }
+.login-input { width: 100%; padding: 12px 16px; background: #0D1F18; border: 1px solid #1D9E75; border-radius: 10px; color: white; font-size: 15px; font-family: 'Tajawal', sans-serif; margin-bottom: 1rem; text-align: center; letter-spacing: 4px; }
+.login-input:focus { outline: none; border-color: #5DCAA5; }
+.login-btn { width: 100%; padding: 12px; background: #1D9E75; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; font-family: 'Tajawal', sans-serif; cursor: pointer; transition: background 0.15s; }
+.login-btn:hover { background: #0F6E56; }
+.login-error { color: #F09595; font-size: 13px; margin-top: 8px; display: none; }
+.nav { background: #0D1F18; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.logo-icon { width: 36px; height: 36px; background: #1D9E75; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
+.logo-text { font-size: 18px; font-weight: 700; color: white; }
+.logo-sub { font-size: 11px; color: #9FE1CB; margin-top: -2px; }
+.nav-badge { background: #1D9E75; color: white; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; }
+.logout-btn { background: transparent; border: 1px solid #1D9E75; color: #9FE1CB; padding: 6px 16px; border-radius: 8px; font-size: 13px; font-family: 'Tajawal', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.15s; }
+.logout-btn:hover { background: #1D9E75; color: white; }
+.main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+.page-title { font-size: 24px; font-weight: 700; color: #0D1F18; margin-bottom: 4px; }
+.page-sub { font-size: 14px; color: #888; margin-bottom: 1.5rem; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+.stat-card { background: white; border-radius: 14px; padding: 1.1rem; border: 1px solid #E2EDE9; }
+.stat-label { font-size: 12px; color: #888; margin-bottom: 4px; }
+.stat-value { font-size: 26px; font-weight: 700; color: #0D1F18; }
+.stat-sub { font-size: 11px; color: #999; margin-top: 2px; }
+.stat-green .stat-value { color: #0F6E56; }
+.stat-red .stat-value { color: #A32D2D; }
+.update-card { background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid #E2EDE9; margin-bottom: 1.5rem; }
+.update-title { font-size: 16px; font-weight: 700; color: #0D1F18; }
+.update-sub { font-size: 13px; color: #888; margin-top: 2px; margin-bottom: 1.25rem; }
+.sources-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.25rem; }
+.source-item { background: #F8FAFA; border-radius: 10px; padding: 10px 12px; border: 1px solid #E2EDE9; display: flex; align-items: center; gap: 10px; }
+.source-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-green { background: #1D9E75; }
+.source-name { font-size: 13px; font-weight: 500; color: #333; }
+.source-count { font-size: 11px; color: #888; margin-top: 2px; }
+.update-btn { padding: 11px 28px; background: #1D9E75; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; font-family: 'Tajawal', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.15s; }
+.update-btn:hover { background: #0F6E56; }
+.update-btn:disabled { background: #9FE1CB; cursor: not-allowed; }
+.rebuild-btn { padding: 11px 28px; background: white; color: #0F6E56; border: 1.5px solid #1D9E75; border-radius: 10px; font-size: 15px; font-weight: 700; font-family: 'Tajawal', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.15s; }
+.rebuild-btn:hover { background: #E1F5EE; }
+.btn-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.progress-box { background: #F0FBF7; border-radius: 10px; padding: 14px 16px; margin-top: 1rem; display: none; border-right: 3px solid #1D9E75; }
+.progress-text { font-size: 14px; color: #0F6E56; font-weight: 500; }
+.progress-log { font-size: 12px; color: #555; margin-top: 6px; font-family: monospace; line-height: 1.8; }
+.table-card { background: white; border-radius: 16px; border: 1px solid #E2EDE9; overflow: hidden; margin-bottom: 1.5rem; }
+.table-header { padding: 1rem 1.5rem; border-bottom: 1px solid #F0F5F3; font-weight: 700; font-size: 15px; color: #0D1F18; display: flex; align-items: center; justify-content: space-between; }
+.table-header span { font-size: 13px; color: #888; font-weight: 400; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { padding: 10px 1.5rem; text-align: right; font-weight: 700; color: #999; font-size: 11px; border-bottom: 1px solid #F0F5F3; background: #FAFAFA; }
+.data-table td { padding: 11px 1.5rem; border-bottom: 1px solid #F0F5F3; color: #333; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: #FAFCFB; }
+.kb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+.kb-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid #F0F5F3; font-size: 14px; }
+.kb-row:last-child { border-bottom: none; }
+.kb-label { color: #666; }
+.kb-value { font-weight: 700; color: #0D1F18; }
+.status-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; }
+.status-badge.online { color: #0F6E56; }
+.status-badge.offline { color: #A32D2D; }
+.empty-state { text-align: center; padding: 2rem; color: #999; }
+.empty-state i { font-size: 44px; margin-bottom: 12px; display: block; }
+.refresh-btn { background: #1D9E75; color: white; border: none; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-family: 'Tajawal', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+.refresh-btn:hover { background: #0F6E56; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="login-overlay" id="login-overlay">
+  <div class="login-box">
+    <div class="login-icon"><i class="ti ti-shield-lock"></i></div>
+    <div class="login-title">لوحة إدارة تبيَّن</div>
+    <div class="login-sub">أدخل كلمة المرور للمتابعة</div>
+    <input class="login-input" type="password" id="pwd-input" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()" />
+    <button class="login-btn" onclick="doLogin()"><i class="ti ti-login"></i> دخول</button>
+    <div class="login-error" id="login-error">كلمة المرور غير صحيحة</div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="logo-icon"><i class="ti ti-shield-check"></i></div>
+    <div>
+      <div class="logo-text">تبيَّن</div>
+      <div class="logo-sub">لوحة الإدارة</div>
+    </div>
+  </div>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span class="nav-badge"><i class="ti ti-lock"></i> Admin</span>
+    <button class="logout-btn" onclick="doLogout()"><i class="ti ti-logout"></i> خروج</button>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="page-title">لوحة الإدارة</div>
+  <div class="page-sub" id="last-refresh">جاري تحميل البيانات...</div>
+
+  <div class="stats-grid">
+    <div class="stat-card stat-green">
+      <div class="stat-label">مقالات في الـ KB</div>
+      <div class="stat-value">11,629</div>
+      <div class="stat-sub">مقالة عربية موثوقة</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">إجمالي الادعاءات</div>
+      <div class="stat-value" id="stat-total">—</div>
+      <div class="stat-sub">منذ بدء التشغيل</div>
+    </div>
+    <div class="stat-card stat-red">
+      <div class="stat-label">حسابات مشبوهة</div>
+      <div class="stat-value" id="stat-suspicious">—</div>
+      <div class="stat-sub">تحت المراقبة</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">حالة السيرفر</div>
+      <div class="stat-value" style="font-size:15px; padding-top:4px;" id="server-status">جاري الفحص...</div>
+      <div class="stat-sub" id="server-sub">—</div>
+    </div>
+  </div>
+
+  <div class="update-card">
+    <div class="update-title"><i class="ti ti-refresh"></i> تحديث التغريدات</div>
+    <div class="update-sub">جلب أحدث التغريدات من Apify وإضافتها للـ KB بدون إعادة بناء</div>
+    <div class="sources-grid">
+      <div class="source-item">
+        <div class="source-dot dot-green"></div>
+        <div><div class="source-name">SPAregions</div><div class="source-count">واس المناطق • يومياً 2:40 م</div></div>
+      </div>
+      <div class="source-item">
+        <div class="source-dot dot-green"></div>
+        <div><div class="source-name">SaudiNews50</div><div class="source-count">أخبار السعودية • يومياً 2:35 م</div></div>
+      </div>
+      <div class="source-item">
+        <div class="source-dot dot-green"></div>
+        <div><div class="source-name">moe_gov_sa</div><div class="source-count">وزارة التعليم • يومياً 2:30 م</div></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="update-btn" id="update-btn" onclick="updateTweets()">
+        <i class="ti ti-brand-twitter"></i> تحديث التغريدات الآن
+      </button>
+      <button class="rebuild-btn" id="rebuild-btn" onclick="rebuildDB()">
+        <i class="ti ti-database"></i> إعادة بناء الـ KB كاملاً
+      </button>
+    </div>
+    <div class="progress-box" id="progress-box">
+      <div class="progress-text" id="progress-text">جاري التحديث...</div>
+      <div class="progress-log" id="progress-log"></div>
+    </div>
+  </div>
+
+  <div class="kb-grid">
+    <div class="table-card" style="margin:0">
+      <div class="table-header">مصادر قاعدة البيانات</div>
+      <div style="padding: 0 1.5rem;">
+        <div class="kb-row"><span class="kb-label">AFND</span><span class="kb-value">6,487 مقالة</span></div>
+        <div class="kb-row"><span class="kb-label">Classified Arabic News</span><span class="kb-value">5,000 مقالة</span></div>
+        <div class="kb-row"><span class="kb-label">Al Jazeera + BBC</span><span class="kb-value">129 مقالة</span></div>
+        <div class="kb-row"><span class="kb-label">تغريدات حكومية</span><span class="kb-value" id="tweets-count">120+ تغريدة</span></div>
+        <div class="kb-row"><span class="kb-label">آخر تحديث</span><span class="kb-value" id="last-tweet-update">—</span></div>
+      </div>
+    </div>
+
+    <div class="table-card" style="margin:0">
+      <div class="table-header">
+        الحسابات المشبوهة
+        <div style="display:flex; gap:8px; align-items:center;">
+          <span id="suspicious-count" style="font-size:13px; color:#888; font-weight:400;">0 حساب</span>
+          <button class="refresh-btn" onclick="loadSuspicious()">
+            <i class="ti ti-refresh"></i> تحديث
+          </button>
+        </div>
+      </div>
+      <div id="suspicious-body">
+        <div class="empty-state">
+          <i class="ti ti-shield-check"></i>
+          <p>لا توجد حسابات مشبوهة</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:8000';
+const ADMIN_PASSWORD = 'tabayyun2026';
+
+function doLogin() {
+  const pwd = document.getElementById('pwd-input').value;
+  if (pwd === ADMIN_PASSWORD) {
+    document.getElementById('login-overlay').style.display = 'none';
+    loadDashboard();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+    document.getElementById('pwd-input').focus();
+  }
+}
+
+function doLogout() {
+  document.getElementById('login-overlay').style.display = 'flex';
+  document.getElementById('pwd-input').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+async function loadSuspicious() {
+  try {
+    const res = await fetch(`${API}/suspicious`);
+    const data = await res.json();
+    document.getElementById('stat-suspicious').textContent = data.count;
+    document.getElementById('suspicious-count').textContent = data.count + ' حساب';
+
+    if (data.count > 0) {
+      document.getElementById('suspicious-body').innerHTML = `
+        <table class="data-table">
+          <thead><tr>
+            <th>الحساب</th>
+            <th>ادعاءات كاذبة</th>
+            <th>الإجمالي</th>
+            <th>نسبة الخطأ</th>
+            <th>الحالة</th>
+          </tr></thead>
+          <tbody>
+            ${data.accounts.map(a => `
+              <tr>
+                <td style="font-weight:600;">@${a.handle}</td>
+                <td style="color:#A32D2D;font-weight:700;">${a.false_count}</td>
+                <td>${a.total}</td>
+                <td style="color:#EF9F27;font-weight:700;">${Math.round((a.false_count/a.total)*100)}%</td>
+                <td><span style="background:#FCEBEB;color:#A32D2D;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;">مشبوه</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    } else {
+      document.getElementById('suspicious-body').innerHTML = `
+        <div class="empty-state">
+          <i class="ti ti-shield-check"></i>
+          <p>لا توجد حسابات مشبوهة</p>
+        </div>
+      `;
+    }
+  } catch(e) {
+    document.getElementById('suspicious-body').innerHTML = `<div class="empty-state"><p>تعذر تحميل البيانات</p></div>`;
+  }
+}
+
+async function loadDashboard() {
+  document.getElementById('last-refresh').textContent = 'آخر تحديث: ' + new Date().toLocaleTimeString('ar-SA');
+
+  try {
+    const res = await fetch(`${API}/healthz`);
+    const data = await res.json();
+    document.getElementById('server-status').innerHTML = `<span class="status-badge online"><i class="ti ti-circle-filled" style="font-size:10px"></i> يعمل</span>`;
+    document.getElementById('server-sub').textContent = data.groq_configured ? 'Groq API متصل ✓' : 'Groq API غير متصل!';
+  } catch(e) {
+    document.getElementById('server-status').innerHTML = `<span class="status-badge offline"><i class="ti ti-circle-filled" style="font-size:10px"></i> متوقف</span>`;
+    document.getElementById('server-sub').textContent = 'السيرفر غير شغال';
+  }
+
+  document.getElementById('last-tweet-update').textContent = new Date().toLocaleDateString('ar-SA');
+  loadSuspicious();
+}
+
+async function updateTweets() {
+  const btn = document.getElementById('update-btn');
+  const box = document.getElementById('progress-box');
+  const text = document.getElementById('progress-text');
+  const log = document.getElementById('progress-log');
+
+  btn.disabled = true;
+  btn.innerHTML = '<div style="width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;margin:0"></div> جاري التحديث...';
+  box.style.display = 'block';
+  text.textContent = 'جاري جلب التغريدات من Apify...';
+  log.textContent = '';
+
+  try {
+    const res = await fetch(`${API}/admin/update-tweets`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ admin_key: 'tabayyun2026' })
+    });
+    const data = await res.json();
+    if (data.success) {
+      text.textContent = '✅ تم التحديث بنجاح!';
+      log.innerHTML = data.log.join('<br>');
+      document.getElementById('tweets-count').textContent = data.total_tweets + ' تغريدة';
+    } else {
+      text.textContent = '⚠️ ' + (data.message || 'حدث خطأ');
+    }
+  } catch(e) {
+    text.textContent = '❌ تعذر الاتصال بالسيرفر';
+    log.textContent = 'تأكدي من تشغيل: python tabayyan.py';
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-brand-twitter"></i> تحديث التغريدات الآن';
+}
+
+async function rebuildDB() {
+  if (!confirm('إعادة البناء الكامل تأخذ 10-15 دقيقة. هل تريدين المتابعة؟')) return;
+  const btn = document.getElementById('rebuild-btn');
+  const box = document.getElementById('progress-box');
+  const text = document.getElementById('progress-text');
+  btn.disabled = true;
+  box.style.display = 'block';
+  text.textContent = 'جاري إعادة بناء قاعدة البيانات...';
+  try {
+    const res = await fetch(`${API}/admin/rebuild-db`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ admin_key: 'tabayyun2026' })
+    });
+    const data = await res.json();
+    text.textContent = data.success ? '✅ تم إعادة البناء!' : '❌ ' + data.message;
+  } catch(e) {
+    text.textContent = '❌ تعذر الاتصال';
+  }
+  btn.disabled = false;
+}
+
+// تحديث تلقائي كل 30 ثانية
+setInterval(loadSuspicious, 30000);
+</script>
+</body>
+</html>
