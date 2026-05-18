@@ -193,21 +193,14 @@ def add_tweets_only():
         print("   ⚠️  No new tweets!")
         return
 
-    # Since FAISS doesn't support deletion easily,
-    # rebuild only if tweet count changed significantly
     non_tweet_meta = [m for m in meta if m.get("dataset") != "tweets"]
     print(f"   📊 Non-tweet articles: {len(non_tweet_meta)}")
     print(f"   🐦 New tweets: {len(new_articles)}")
 
-    # Reload all non-tweet articles + new tweets
-    all_articles = []
-
-    # Load non-tweet sources
     non_tweet_sources = {k: v for k, v in SOURCES.items() if k != "tweets"}
     all_articles = load_articles(non_tweet_sources)
     all_articles += new_articles
 
-    # Re-embed all
     print(f"\n🔢 Re-indexing {len(all_articles)} articles...")
     texts = [a["text"] for a in all_articles]
     embeddings = model.encode(texts, batch_size=128, show_progress_bar=False)
@@ -269,12 +262,12 @@ def search_kb(query: str, n_results: int = 5) -> List[dict]:
     q_emb = _model.encode([query]).astype(np.float32)
     q_emb = q_emb / (np.linalg.norm(q_emb) + 1e-10)
 
-    # Search
-    scores, indices = _index.search(q_emb, n_results * 2)
+    # Search — خفضنا الـ threshold من 0.3 إلى 0.15
+    scores, indices = _index.search(q_emb, n_results * 3)
 
     results = []
     for score, idx in zip(scores[0], indices[0]):
-        if idx < 0 or score < 0.3:
+        if idx < 0 or score < 0.15:
             continue
         m = _meta[idx]
         results.append({

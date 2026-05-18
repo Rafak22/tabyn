@@ -1,152 +1,622 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تبيَّن | نظام التحقق من الأخبار العربية</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.3.0/tabler-icons.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Tajawal', sans-serif; background: #F4F7F6; color: #1a1a1a; direction: rtl; }
-.nav { background: white; border-bottom: 1px solid #E2EDE9; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 8px rgba(0,0,0,0.04); }
-.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.logo-icon { width: 36px; height: 36px; background: #1D9E75; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
-.logo-text { font-size: 20px; font-weight: 700; color: #0F6E56; }
-.logo-sub { font-size: 11px; color: #888; margin-top: -2px; }
-.page { max-width: 860px; margin: 0 auto; padding: 2rem; }
-.hero { text-align: center; padding: 2.5rem 1rem 2rem; }
-.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #E1F5EE; color: #0F6E56; font-size: 13px; font-weight: 500; padding: 5px 16px; border-radius: 100px; margin-bottom: 1rem; }
-.hero h1 { font-size: 30px; font-weight: 700; color: #0D1F18; margin-bottom: 10px; }
-.hero p { font-size: 15px; color: #666; line-height: 1.7; max-width: 560px; margin: 0 auto; }
-.card { background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid #E2EDE9; margin-bottom: 1.5rem; box-shadow: 0 1px 6px rgba(0,0,0,0.03); }
-.input-toggle { display: flex; gap: 8px; margin-bottom: 1.25rem; }
-.toggle-btn { flex: 1; padding: 10px; border: 1.5px solid #E2EDE9; border-radius: 10px; background: #FAFAFA; color: #666; font-size: 14px; font-weight: 500; font-family: 'Tajawal', sans-serif; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.toggle-btn:hover { border-color: #1D9E75; color: #0F6E56; }
-.toggle-btn.active { border-color: #1D9E75; background: #E1F5EE; color: #0F6E56; font-weight: 700; }
-.input-section { display: none; }
-.input-section.active { display: block; }
-.input-label { font-size: 13px; font-weight: 500; color: #555; margin-bottom: 6px; display: block; }
-.claim-input { width: 100%; padding: 12px 14px; font-size: 15px; font-family: 'Tajawal', sans-serif; border: 1.5px solid #E2EDE9; border-radius: 10px; background: #FAFCFB; color: #1a1a1a; resize: vertical; min-height: 100px; line-height: 1.7; transition: border-color 0.15s; }
-.claim-input:focus { outline: none; border-color: #1D9E75; background: white; }
-.img-upload { border: 2px dashed #C5DDD6; border-radius: 14px; padding: 2.5rem; text-align: center; cursor: pointer; transition: all 0.15s; margin-bottom: 1rem; }
-.img-upload:hover { border-color: #1D9E75; background: #F0FBF7; }
-.img-upload i { font-size: 40px; color: #9FE1CB; margin-bottom: 10px; display: block; }
-.img-upload p { font-size: 15px; color: #555; font-weight: 500; }
-.img-upload span { font-size: 12px; color: #999; margin-top: 4px; display: block; }
-#img-preview { display: none; margin-bottom: 1rem; }
-#preview-img { max-width: 100%; border-radius: 10px; border: 1px solid #E2EDE9; }
-.handle-row { display: flex; gap: 12px; align-items: flex-end; margin-top: 1rem; }
-.handle-input { flex: 1; padding: 10px 14px; font-size: 14px; font-family: 'Tajawal', sans-serif; border: 1.5px solid #E2EDE9; border-radius: 10px; background: #FAFCFB; color: #1a1a1a; transition: border-color 0.15s; }
-.handle-input:focus { outline: none; border-color: #1D9E75; }
-.verify-btn { padding: 10px 28px; background: #1D9E75; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; font-family: 'Tajawal', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.15s; white-space: nowrap; }
-.verify-btn:hover { background: #0F6E56; }
-.verify-btn:disabled { background: #9FE1CB; cursor: not-allowed; }
-.result-card { background: white; border-radius: 16px; border: 1px solid #E2EDE9; overflow: hidden; margin-top: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); animation: fadeUp 0.3s ease; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-.result-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #F0F5F3; }
-.verdict-badge { padding: 7px 18px; border-radius: 100px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-.v-true { background: #E1F5EE; color: #0F6E56; }
-.v-false { background: #FCEBEB; color: #A32D2D; }
-.v-misleading { background: #FAEEDA; color: #854F0B; }
-.v-nei { background: #F1EFE8; color: #5F5E5A; }
-.conf-bar { flex:1; height:7px; background:#F0F5F3; border-radius:100px; overflow:hidden; }
-.conf-fill { height:100%; border-radius:100px; transition: width 0.6s ease; }
-.conf-pct { font-size:14px; font-weight:700; min-width:40px; text-align:left; }
-.result-body { padding: 1.5rem; }
-.section-title { font-size: 12px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; margin-top: 1.25rem; }
-.section-title:first-child { margin-top: 0; }
-.justification { font-size: 15px; color: #333; line-height: 1.8; padding: 14px 16px; background: #F8FAFA; border-radius: 10px; border-right: 3px solid #1D9E75; }
-.debate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.debate-card { padding: 12px 14px; border-radius: 10px; background: #FAFAFA; border: 1px solid #EEE; }
-.debate-card.defense { border-right: 3px solid #1D9E75; }
-.debate-card.prosecution { border-right: 3px solid #E24B4A; }
-.debate-role { font-size: 12px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
-.debate-card.defense .debate-role { color: #0F6E56; }
-.debate-card.prosecution .debate-role { color: #A32D2D; }
-.debate-text { font-size: 13px; color: #555; line-height: 1.6; }
-.citation-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #F0F0F0; font-size: 13px; }
-.citation-item:last-child { border-bottom: none; }
-.citation-source { background: #E1F5EE; color: #0F6E56; padding: 3px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; white-space: nowrap; }
-.citation-text { flex: 1; color: #555; }
-.citation-date { color: #999; font-size: 11px; white-space: nowrap; }
-.trace-log { font-size: 12px; font-family: monospace; color: #888; background: #F8FAFA; border-radius: 10px; padding: 12px 14px; line-height: 2; }
-.extracted-box { margin-bottom: 12px; padding: 12px 16px; background: #F0FBF7; border-radius: 10px; font-size: 13px; color: #555; border-right: 3px solid #1D9E75; }
-.loading-box { text-align: center; padding: 3rem; }
-.spinner { width: 36px; height: 36px; border: 3px solid #E2EDE9; border-top-color: #1D9E75; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.steps-list { list-style: none; margin-top: 1rem; }
-.step-item { font-size: 14px; color: #999; padding: 5px 0; display: flex; align-items: center; gap: 8px; }
-.step-item.done { color: #1D9E75; }
-.step-item.active { color: #333; font-weight: 700; }
-.error-box { background: #FCEBEB; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; gap: 12px; color: #A32D2D; font-size: 14px; margin-top: 1rem; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تبيّن - نظام التحقق من الأخبار</title>
+    <!-- Tailwind CSS for sleek styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cairo Google Font for premium Arabic typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        /* Custom smooth transition behavior */
+        .transition-all {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Premium radial background glow */
+        .bg-gradient-mesh {
+            background-color: #fcfdfd;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 122, 83, 0.03) 0px, transparent 50%), 
+                radial-gradient(at 100% 100%, rgba(13, 148, 136, 0.06) 0px, transparent 50%);
+        }
+        /* Modern abstract line background representation */
+        .pattern-overlay {
+            background-image: radial-gradient(rgba(16, 122, 83, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        /* Custom Keyframe for the glowing sparkle */
+        @keyframes subtle-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 4px rgba(16, 122, 83, 0.5)); }
+        }
+        .animate-sparkle {
+            animation: subtle-pulse 2s infinite ease-in-out;
+        }
+    </style>
 </head>
-<body>
-<nav class="nav">
-  <a class="nav-logo" href="#">
-    <div class="logo-icon"><i class="ti ti-shield-check"></i></div>
-    <div>
-      <div class="logo-text">تبيَّن</div>
-      <div class="logo-sub">نظام التحقق من الأخبار</div>
+<body class="bg-gradient-mesh min-h-screen text-slate-800 flex flex-col relative overflow-x-hidden antialiased" id="drop-zone">
+    <!-- Grid overlay for visual depth -->
+    <div class="absolute inset-0 pattern-overlay opacity-30 pointer-events-none"></div>
+ 
+    <!-- Drag and Drop Overlay Indicator -->
+    <div id="drag-overlay" class="hidden fixed inset-0 bg-[#107A53]/90 backdrop-blur-md z-50 flex flex-col items-center justify-center text-white p-6 transition-all duration-300">
+        <div class="w-24 h-24 rounded-full border-4 border-dashed border-white/50 flex items-center justify-center mb-4 animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+        </div>
+        <h3 class="text-2xl font-black">ألقِ الصورة هنا للتحقق الفوري...</h3>
+        <p class="text-sm text-white/75 mt-1">سيقوم نظام تبيّن بفحص الصورة مباشرة</p>
     </div>
-  </a>
-</nav>
-<div class="page">
-  <div class="hero">
-    <div class="hero-badge"><i class="ti ti-sparkles"></i> مدعوم بالذكاء الاصطناعي</div>
-    <h1>تحقق من أي ادعاء إخباري</h1>
-    <p>أدخل نص الادعاء أو ارفع صورة وسيقوم النظام بالبحث في أكثر من 11,600 مقالة موثوقة</p>
-  </div>
-  <div class="card">
-    <div class="input-toggle">
-      <button class="toggle-btn active" id="btn-text" onclick="switchInput('text')">
-        <i class="ti ti-text-size"></i> تحقق من نص
-      </button>
-      <button class="toggle-btn" id="btn-image" onclick="switchInput('image')">
-        <i class="ti ti-photo"></i> تحقق من صورة
-      </button>
-    </div>
-    <div class="input-section active" id="section-text">
-      <label class="input-label">نص الادعاء</label>
-      <textarea class="claim-input" id="claim-text" placeholder="مثال: أعلنت وزارة التعليم إلزام الطلاب بدراسة الذكاء الاصطناعي..."></textarea>
-    </div>
-    <div class="input-section" id="section-image">
-      <div class="img-upload" id="upload-zone" onclick="document.getElementById('img-input').click()">
-        <i class="ti ti-cloud-upload"></i>
-        <p>اضغط لرفع صورة أو اسحبها هنا</p>
-        <span>PNG, JPG, WEBP — بحد أقصى 10MB</span>
-        <input type="file" id="img-input" accept="image/*" style="display:none" onchange="handleImage(event)" />
-      </div>
-      <div id="img-preview"><img id="preview-img" /></div>
-    </div>
-    <div class="handle-row">
-      <div style="flex:1">
-        <label class="input-label">حساب المصدر (اختياري)</label>
-        <input class="handle-input" id="handle-text" placeholder="مثال: SaudiNews50@" />
-      </div>
-      <button class="verify-btn" id="verify-btn" onclick="runVerify()">
-        <i class="ti ti-shield-search"></i> تحقق الآن
-      </button>
-    </div>
-  </div>
-  <div id="result"></div>
-</div>
-<script>
-const API='http://localhost:8000';
-let currentMode='text';
-const VL={confirmed_true:'✓ صحيح',confirmed_false:'✗ خاطئ',misleading:'⚠ مضلل',nei:'— غير محدد'};
-const VC={confirmed_true:'v-true',confirmed_false:'v-false',misleading:'v-misleading',nei:'v-nei'};
-const VCL={confirmed_true:'#1D9E75',confirmed_false:'#E24B4A',misleading:'#EF9F27',nei:'#888'};
-function switchInput(mode){currentMode=mode;document.getElementById('section-text').classList.toggle('active',mode==='text');document.getElementById('section-image').classList.toggle('active',mode==='image');document.getElementById('btn-text').classList.toggle('active',mode==='text');document.getElementById('btn-image').classList.toggle('active',mode==='image');document.getElementById('result').innerHTML='';}
-function handleImage(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{document.getElementById('preview-img').src=ev.target.result;document.getElementById('img-preview').style.display='block';document.getElementById('upload-zone').style.display='none';};r.readAsDataURL(file);}
-function showLoading(){document.getElementById('result').innerHTML=`<div class="result-card"><div class="loading-box"><div class="spinner"></div><p style="font-weight:700;font-size:15px;margin-bottom:8px;">جاري التحقق من الادعاء</p><ul class="steps-list"><li class="step-item done"><i class="ti ti-check"></i> فحص سمعة الحساب</li><li class="step-item done"><i class="ti ti-check"></i> توليد استعلامات البحث</li><li class="step-item active"><i class="ti ti-loader"></i> البحث في 11,629 مقالة</li><li class="step-item"><i class="ti ti-dots"></i> تحليل الأدلة</li><li class="step-item"><i class="ti ti-dots"></i> إصدار الحكم النهائي</li></ul></div></div>`;}
-function renderResult(data){const pct=Math.round(data.confidence*100);const citations=(data.citations||[]).slice(0,4);let html='';if(data.image_extracted_text){html+=`<div class="extracted-box"><strong style="color:#0F6E56;"><i class="ti ti-text-recognition"></i> النص المستخرج من الصورة:</strong><br>${data.image_extracted_text}</div>`;}
-html+=`<div class="result-card"><div class="result-header"><span class="verdict-badge ${VC[data.verdict]||'v-nei'}">${VL[data.verdict]||data.verdict}</span><div class="conf-bar"><div class="conf-fill" style="width:${pct}%;background:${VCL[data.verdict]||'#888'}"></div></div><span class="conf-pct" style="color:${VCL[data.verdict]||'#888'}">${pct}%</span></div><div class="result-body"><div class="section-title">التبرير</div><div class="justification">${data.justification}</div>${data.defense_argument||data.prosecution_argument?`<div class="section-title">تحليل الوكيل</div><div class="debate-grid"><div class="debate-card defense"><div class="debate-role"><i class="ti ti-shield"></i> حجة الدعم</div><div class="debate-text">${data.defense_argument||'—'}</div></div><div class="debate-card prosecution"><div class="debate-role"><i class="ti ti-gavel"></i> حجة الرفض</div><div class="debate-text">${data.prosecution_argument||'—'}</div></div></div>`:''} ${citations.length>0?`<div class="section-title">المصادر</div>${citations.map(c=>`<div class="citation-item"><span class="citation-source">${c.source||''}</span><span class="citation-text">${c.quote||c.url||''}</span><span class="citation-date">${c.date||''}</span></div>`).join('')}`:''}${data.trace_log&&data.trace_log.length>0?`<div class="section-title">سجل التنفيذ</div><div class="trace-log">${data.trace_log.map(l=>'› '+l).join('<br>')}</div>`:''}<div style="font-size:12px;color:#999;margin-top:14px;text-align:left;">⏱ ${data.elapsed_seconds}s${data.loop_count>0?' · '+data.loop_count+' إعادة بحث':''}</div></div></div>`;
-document.getElementById('result').innerHTML=html;}
-function showError(msg){document.getElementById('result').innerHTML=`<div class="error-box"><i class="ti ti-wifi-off" style="font-size:24px;"></i><div><strong>تعذر الاتصال بالسيرفر</strong><br><span style="font-size:13px;">${msg}</span></div></div>`;}
-async function runVerify(){const handle=document.getElementById('handle-text').value.trim();const btn=document.getElementById('verify-btn');btn.disabled=true;btn.innerHTML='<div class="spinner" style="width:16px;height:16px;margin:0;border-width:2px;"></div> جاري التحقق...';showLoading();try{if(currentMode==='text'){const claim=document.getElementById('claim-text').value.trim();if(!claim){btn.disabled=false;btn.innerHTML='<i class="ti ti-shield-search"></i> تحقق الآن';return;}const res=await fetch(`${API}/verify`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({claim,source_handle:handle||null})});if(!res.ok)throw new Error();renderResult(await res.json());}else{const file=document.getElementById('img-input').files[0];if(!file){btn.disabled=false;btn.innerHTML='<i class="ti ti-shield-search"></i> تحقق الآن';return;}const fd=new FormData();fd.append('image',file);if(handle)fd.append('source_handle',handle);const res=await fetch(`${API}/verify-image`,{method:'POST',body:fd});if(!res.ok)throw new Error();renderResult(await res.json());}}catch(e){showError('تأكدي من تشغيل: python tabayyan.py');}btn.disabled=false;btn.innerHTML='<i class="ti ti-shield-search"></i> تحقق الآن';}
-document.addEventListener('DOMContentLoaded',()=>{document.getElementById('claim-text').addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='Enter')runVerify();});});
-</script>
+ 
+    <!-- Header / Navbar -->
+    <header class="relative z-10 w-full max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+        <!-- Right side: Premium Typographic Logo & Branding with Group Hover Effect -->
+        <div class="flex items-center gap-3 group cursor-pointer select-none">
+            <!-- حاوية المربع الأخضر وبداخله العين الواقعية المدمجة مع تأثير نبض راداري ناعم خلفه -->
+            <div class="relative flex items-center justify-center">
+                <!-- تأثير النبض الراداري الدائري المتوسع خلف المربع الأخضر -->
+                <span class="animate-ping absolute inline-flex h-9 w-9 rounded-xl bg-emerald-500/20 opacity-75"></span>
+                
+                <!-- المربع الأخضر التفاعلي وبداخله لوقو العين بواقعية مذهلة وتفاصيل بصرية دقيقة -->
+                <div class="relative w-12 h-12 bg-gradient-to-tr from-[#107A53] to-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-[#107A53]/20 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-105">
+                    <svg class="w-8 h-8 text-white animate-sparkle transition-all duration-300" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- جفن العين الأساسي بانحناءة طبيعية متناسقة -->
+                        <path d="M2 12C4.5 7 8 4.5 12 4.5C16 4.5 19.5 7 22 12C19.5 17 16 19.5 12 19.5C8 19.5 4.5 17 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                        
+                        <!-- القزحية الخارجي للعدسة (Iris) لتمثيل الألياف البصرية للعين بشكل فاخر -->
+                        <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1 1"/>
+                        
+                        <!-- حدقة العين الداخلية (Pupil) -->
+                        <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+                        
+                        <!-- لمعة الضوء الرئيسية العلوية لإعطاء اللمسة الزجاجية الواقعية ثلاثية الأبعاد -->
+                        <circle cx="10.5" cy="10.5" r="0.9" fill="#fff"/>
+                        
+                        <!-- لمعة الضوء الثانوية الرقيقة المقابلة لإعطاء عمق وبُعد واقعي للقرنية -->
+                        <circle cx="13.5" cy="13" r="0.4" fill="#fff" opacity="0.8"/>
+                        
+                        <!-- الرموش العلوية المنحنية للخارج بشكل طبيعي للغاية -->
+                        <path d="M5 6.5C4.2 4.5 3 3.5 3 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M8.5 5C8.5 3 8 1.5 8 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M12 4.5V1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M15.5 5C15.5 3 16 1.5 16 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M19 6.5C19.8 4.5 21 3.5 21 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                        
+                        <!-- الرموش السفلية الرقيقة والقصيرة المنحنية بنعومة -->
+                        <path d="M6 17.5C5.3 19 4.5 20 4.5 20" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                        <path d="M12 19.5V21.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                        <path d="M18 17.5C18.7 19 19.5 20 19.5 20" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="flex flex-col">
+                <!-- العنوان بـ تشبيك طبيعي متكامل 100% بسيط وأنيق يتوهج مع مرور الماوس -->
+                <div class="relative inline-flex items-center">
+                    <span class="text-2xl font-black text-slate-900 tracking-tight transition-all duration-300 group-hover:text-[#107A53] select-none">
+                        تبيَّن
+                    </span>
+                </div>
+                <p class="text-[10px] text-emerald-800/80 font-extrabold tracking-wider mt-0.5 select-none">نظام التحقق من الأخبار</p>
+            </div>
+        </div>
+ 
+        <!-- Left side: Empty -->
+        <div></div>
+    </header>
+ 
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col justify-center items-center px-4 max-w-4xl mx-auto w-full relative z-10 py-12">
+        
+        <!-- ================= SEARCH SECTION ================= -->
+        <section id="search-section" class="w-full text-center space-y-8 transition-all duration-500 scale-100 opacity-100">
+            <!-- Hero Headers -->
+            <div class="max-w-2xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-black text-teal-950 leading-tight tracking-tight select-none">
+                    وش العلم؟
+                </h2>
+            </div>
+ 
+            <!-- Sleek & Thinner Input Area Container -->
+            <div class="w-full max-w-2xl mx-auto">
+                <div class="bg-white rounded-3xl p-4 shadow-xl shadow-slate-100 border border-slate-100/80 hover:shadow-2xl hover:shadow-teal-900/5 focus-within:ring-4 focus-within:ring-teal-700/5 focus-within:border-teal-600 transition-all duration-300 text-right">
+                    
+                    <!-- Thinner Text Area -->
+                    <div class="w-full pb-2">
+                        <textarea id="claim-text" placeholder="اكتب الخبر هنا..." 
+                                  class="w-full bg-transparent px-3 py-1 text-slate-800 placeholder-slate-400 focus:outline-none text-base md:text-lg font-medium resize-none h-14" rows="1"></textarea>
+                    </div>
+ 
+                    <!-- Divider -->
+                    <div class="border-t border-slate-100 my-2"></div>
+ 
+                    <!-- Controls and Actions at the bottom -->
+                    <div class="flex items-center justify-between pt-1">
+                        
+                        <!-- Right Side: Plus (+) Button and Thumbnail Preview -->
+                        <div class="flex items-center gap-2">
+                            <!-- Hidden File Input -->
+                            <input type="file" id="image-upload" accept="image/*" class="hidden" onchange="handleImageSelect(event)">
+                            
+                            <!-- Custom upload trigger button -->
+                            <button type="button" onclick="triggerUpload()" class="w-11 h-11 rounded-full bg-slate-50 hover:bg-teal-50 border border-slate-100 hover:border-teal-200 flex items-center justify-center text-slate-500 hover:text-[#107A53] transition-all duration-200 group shrink-0" title="أضف صورة للتحقق">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5.5 h-5.5 group-hover:rotate-90 transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                            </button>
+ 
+                            <!-- Mini Image Thumbnail -->
+                            <div id="image-preview-container" class="hidden relative group shrink-0">
+                                <img id="image-preview-thumb" src="" alt="المعاينة" class="w-11 h-11 rounded-xl object-cover border-2 border-[#107A53] shadow-md">
+                                <button type="button" onclick="clearUploadedImage()" class="absolute -top-1.5 -left-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full p-0.5 shadow-md transition-all duration-150">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+ 
+                        <!-- Left Side: Check Button -->
+                        <button type="button" onclick="performVerification()" class="bg-[#107A53] hover:bg-[#0e6b48] text-white font-bold px-7 py-2.5 rounded-full shadow-lg shadow-[#107A53]/10 hover:shadow-[#107A53]/20 active:scale-95 transition-all duration-150 flex items-center gap-2 text-sm md:text-base">
+                            <span>تحقق الآن</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+ 
+                    </div>
+                </div>
+ 
+                <!-- Source Account Accordion Trigger (حساب المصدر الاختياري) -->
+                <div class="mt-4 text-right px-4">
+                    <button type="button" onclick="toggleSourceInput()" class="inline-flex items-center gap-1.5 text-xs md:text-sm font-semibold text-teal-700/80 hover:text-teal-900 transition-colors duration-200">
+                        <span id="accordion-icon">+</span>
+                        <span>إضافة حساب المصدر (اختياري)</span>
+                    </button>
+ 
+                    <!-- Collapsible Input Area -->
+                    <div id="source-input-container" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out opacity-0">
+                        <div class="pt-3 max-w-md mr-0 ml-auto">
+                            <input type="text" id="source-input" placeholder="مثال: SaudiNews50@" 
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white/70 backdrop-blur-sm focus:border-teal-600 focus:ring-2 focus:ring-teal-700/5 focus:outline-none text-sm transition-all duration-200 text-left placeholder:text-right" dir="ltr">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- ================= LOADING STATE SECTION ================= -->
+        <section id="loading-section" class="hidden w-full max-w-lg mx-auto text-center py-12 space-y-6 transition-all duration-300">
+            <div class="relative w-20 h-20 mx-auto">
+                <div class="absolute inset-0 rounded-full border-4 border-slate-100"></div>
+                <div class="absolute inset-0 rounded-full border-4 border-[#107A53] border-t-transparent animate-spin"></div>
+            </div>
+            
+            <div class="space-y-2">
+                <h3 class="text-lg font-bold text-teal-950">جاري فحص الادعاء...</h3>
+                <p id="loading-step" class="text-sm text-slate-500 min-h-[20px] transition-all duration-300">قراءة وتحليل البيانات المدخلة والمرفقات...</p>
+            </div>
+        </section>
+ 
+        <!-- ================= VERIFICATION RESULTS SECTION (UPDATED PREMIUM DESIGN) ================= -->
+        <section id="result-section" class="hidden w-full max-w-3xl mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-100 border border-slate-100/80 transition-all duration-500 translate-y-4 opacity-0 text-right">
+            
+            <!-- Result Progress Header (مستوحى من تصميم اليوزر الفاخر والمريح) -->
+            <div class="bg-slate-50/50 rounded-2xl p-5 border border-slate-100/80 flex items-center justify-between gap-4 mb-6">
+                <!-- Confidence Score Percentage -->
+                <div class="flex items-center gap-1.5">
+                    <span id="confidence-percentage" class="text-2xl font-black text-slate-800">80%</span>
+                </div>
+ 
+                <!-- Custom Elegant Horizontal Progress Bar -->
+                <div class="flex-1 h-3.5 bg-slate-100 rounded-full overflow-hidden relative mx-2">
+                    <div id="result-progress-bar" class="h-full rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                </div>
+ 
+                <!-- Dynamic Verdict Pill Badge -->
+                <div id="verdict-badge" class="px-5 py-2 rounded-xl text-sm font-black flex items-center gap-2 shadow-sm transition-all duration-300">
+                    <span id="verdict-icon" class="w-2.5 h-2.5 rounded-full bg-current"></span>
+                    <span id="verdict-text">خاطئ</span>
+                </div>
+            </div>
+ 
+            <!-- Image preview on results if uploaded -->
+            <div id="result-image-holder" class="hidden my-6">
+                <p class="text-xs font-bold text-slate-400 mb-2">الصورة المرفقة بالادعاء:</p>
+                <div class="relative inline-block overflow-hidden rounded-2xl border border-slate-150">
+                    <img id="result-attached-img" src="" alt="المرفق" class="max-h-52 object-cover">
+                </div>
+            </div>
+ 
+            <!-- Justification Section (التبرير - مريح وبحد جانبي ملون مميز) -->
+            <div class="mb-6">
+                <h4 class="text-xs font-black text-slate-400 uppercase tracking-wider mb-2">التبرير</h4>
+                <div id="justification-box" class="p-5 rounded-2xl leading-relaxed text-sm md:text-base text-slate-700 whitespace-pre-line border border-slate-100 transition-all duration-300">
+                    <!-- Dynamic justification goes here -->
+                </div>
+            </div>
+ 
+            <!-- Agent Analysis Section (تحليل الوكيل - حجج الدعم والرفض الجذابة) -->
+            <div class="mb-8">
+                <h4 class="text-xs font-black text-slate-400 uppercase tracking-wider mb-3">تحليل الوكيل الذكي</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <!-- Support Argument Card (حجة الدعم) -->
+                    <div id="support-card" class="p-5 rounded-2xl border border-slate-100 bg-white shadow-sm flex flex-col gap-2 transition-all duration-300">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                            <span class="text-xs font-bold text-emerald-800">حجة الدعم</span>
+                        </div>
+                        <p id="support-text" class="text-xs md:text-sm text-slate-600 leading-relaxed">
+                            <!-- Dynamic support text -->
+                        </p>
+                    </div>
+ 
+                    <!-- Rejection Argument Card (حجة الرفض) -->
+                    <div id="rejection-card" class="p-5 rounded-2xl border border-slate-100 bg-white shadow-sm flex flex-col gap-2 transition-all duration-300">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-rose-600"></span>
+                            <span class="text-xs font-bold text-rose-800">حجة الرفض</span>
+                        </div>
+                        <p id="rejection-text" class="text-xs md:text-sm text-slate-600 leading-relaxed">
+                            <!-- Dynamic rejection text -->
+                        </p>
+                    </div>
+ 
+                </div>
+            </div>
+ 
+            <!-- Related Sources & Verified Articles -->
+            <div id="citations-section" class="hidden pt-6 border-t border-slate-100 space-y-4">
+                <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#107A53]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <span>مقالات ومراجع مطابقة ذات صلة:</span>
+                </h4>
+                <div id="citations-list" class="space-y-2.5"></div>
+            </div>
+ 
+            <!-- Footer Meta & Actions -->
+            <div class="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <span id="elapsed-time" class="text-xs text-slate-400 flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </span>
+                <button type="button" onclick="resetToSearch()" class="px-6 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all duration-150 inline-flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span>فحص خبر آخر</span>
+                </button>
+            </div>
+        </section>
+ 
+    </main>
+ 
+    <!-- Footer -->
+    <footer class="relative z-10 w-full text-center py-6 text-xs text-slate-400 border-t border-slate-100/50 mt-auto">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p>© 2026 تبيَّن. جميع الحقوق محفوظة لنظام التحقق الذكي.</p>
+            <div class="flex items-center gap-4">
+                <a href="#" class="hover:text-[#107A53]">سياسة الخصوصية</a>
+                <span class="text-slate-200">|</span>
+                <a href="#" class="hover:text-[#107A53]">شروط الاستخدام</a>
+            </div>
+        </div>
+    </footer>
+ 
+    <!-- Interactive JS logic -->
+    <script>
+        let uploadedImageBase64 = null;
+        let isSourceAccordionOpen = false;
+ 
+        // --- Drag and Drop UX Logic ---
+        const dropZone = document.getElementById('drop-zone');
+        const dragOverlay = document.getElementById('drag-overlay');
+ 
+        window.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            dragOverlay.classList.remove('hidden');
+        });
+ 
+        dragOverlay.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dragOverlay.classList.add('hidden');
+        });
+ 
+        window.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+ 
+        window.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragOverlay.classList.add('hidden');
+            
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                processFile(file);
+            }
+        });
+ 
+        // Toggle Expandable Source Account
+        function toggleSourceInput() {
+            const container = document.getElementById('source-input-container');
+            const icon = document.getElementById('accordion-icon');
+            
+            isSourceAccordionOpen = !isSourceAccordionOpen;
+            
+            if (isSourceAccordionOpen) {
+                container.style.maxHeight = '200px';
+                container.style.opacity = '1';
+                icon.textContent = '−';
+            } else {
+                container.style.maxHeight = '0px';
+                container.style.opacity = '0';
+                icon.textContent = '+';
+            }
+        }
+ 
+        // Trigger hidden file input click
+        function triggerUpload() {
+            document.getElementById('image-upload').click();
+        }
+ 
+        // Handle Image Selection
+        function handleImageSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+ 
+        // Common file processing logic
+        function processFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImageBase64 = e.target.result;
+                
+                // Show small thumbnail inside the search bar
+                const thumbImg = document.getElementById('image-preview-thumb');
+                const thumbContainer = document.getElementById('image-preview-container');
+                
+                thumbImg.src = uploadedImageBase64;
+                thumbContainer.classList.remove('hidden');
+                
+                // Update input placeholder to show image is attached
+                const textInput = document.getElementById('claim-text');
+                textInput.placeholder = "تم إرفاق الصورة بنجاح. اكتب تفاصيل الادعاء هنا إن رغبت...";
+            };
+            reader.readAsDataURL(file);
+        }
+ 
+        // Clear Uploaded Image
+        function clearUploadedImage() {
+            uploadedImageBase64 = null;
+            document.getElementById('image-upload').value = '';
+            document.getElementById('image-preview-container').classList.add('hidden');
+            
+            // Restore input placeholder to the updated version
+            const textInput = document.getElementById('claim-text');
+            textInput.placeholder = "اكتب الخبر هنا...";
+        }
+ 
+        // ── Config ──
+        const API = 'http://localhost:8000';
+ 
+        const VERDICT_LABELS = {
+            confirmed_true:  '✓ صحيح',
+            confirmed_false: '✕ خاطئ',
+            misleading:      '⚠ مضلل',
+            nei:             '— غير محدد'
+        };
+        const VERDICT_BADGE = {
+            confirmed_true:  'px-5 py-2 rounded-xl text-sm font-black flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-100 shadow-sm',
+            confirmed_false: 'px-5 py-2 rounded-xl text-sm font-black flex items-center gap-2 bg-rose-50 text-rose-700 border border-rose-100 shadow-sm',
+            misleading:      'px-5 py-2 rounded-xl text-sm font-black flex items-center gap-2 bg-amber-50 text-amber-700 border border-amber-100 shadow-sm',
+            nei:             'px-5 py-2 rounded-xl text-sm font-black flex items-center gap-2 bg-slate-50 text-slate-600 border border-slate-100 shadow-sm'
+        };
+        const VERDICT_BAR = {
+            confirmed_true:  'h-full rounded-full transition-all duration-1000 ease-out bg-emerald-600',
+            confirmed_false: 'h-full rounded-full transition-all duration-1000 ease-out bg-rose-600',
+            misleading:      'h-full rounded-full transition-all duration-1000 ease-out bg-amber-500',
+            nei:             'h-full rounded-full transition-all duration-1000 ease-out bg-slate-400'
+        };
+        const VERDICT_JUSTIFY = {
+            confirmed_true:  'p-5 rounded-2xl leading-relaxed text-sm md:text-base text-slate-700 whitespace-pre-line border border-emerald-100 bg-emerald-50/20 border-r-4 border-r-emerald-600 transition-all duration-300',
+            confirmed_false: 'p-5 rounded-2xl leading-relaxed text-sm md:text-base text-slate-700 whitespace-pre-line border border-rose-100 bg-rose-50/20 border-r-4 border-r-rose-600 transition-all duration-300',
+            misleading:      'p-5 rounded-2xl leading-relaxed text-sm md:text-base text-slate-700 whitespace-pre-line border border-amber-100 bg-amber-50/20 border-r-4 border-r-amber-500 transition-all duration-300',
+            nei:             'p-5 rounded-2xl leading-relaxed text-sm md:text-base text-slate-700 whitespace-pre-line border border-slate-100 bg-slate-50/20 border-r-4 border-r-slate-400 transition-all duration-300'
+        };
+ 
+        // ── Main: call real API ──
+        async function performVerification() {
+            const claimText   = document.getElementById('claim-text').value.trim();
+            const sourceHandle = document.getElementById('source-input').value.trim();
+ 
+            if (!claimText && !uploadedImageBase64) {
+                const container = document.getElementById('claim-text').closest('.bg-white');
+                container.classList.add('ring-4', 'ring-red-500/20', 'border-red-500');
+                setTimeout(() => container.classList.remove('ring-4', 'ring-red-500/20', 'border-red-500'), 1000);
+                return;
+            }
+ 
+            const searchSection  = document.getElementById('search-section');
+            const loadingSection = document.getElementById('loading-section');
+ 
+            searchSection.classList.add('scale-95', 'opacity-0');
+            setTimeout(async () => {
+                searchSection.classList.add('hidden');
+                loadingSection.classList.remove('hidden');
+ 
+                // تدوير رسائل التحميل أثناء انتظار الـ API
+                const steps = [
+                    "قراءة وتحليل البيانات المدخلة والمرفقات...",
+                    "البحث في قاعدة البيانات (11,629 مقالة)...",
+                    "تحليل الأدلة وإصدار الحكم..."
+                ];
+                let stepIdx = 0;
+                const stepEl = document.getElementById('loading-step');
+                const stepInterval = setInterval(() => {
+                    if (stepIdx < steps.length) stepEl.textContent = steps[stepIdx++];
+                }, 1200);
+ 
+                try {
+                    let data;
+                    if (uploadedImageBase64) {
+                        const blob = await (await fetch(uploadedImageBase64)).blob();
+                        const fd   = new FormData();
+                        fd.append('image', blob, 'image.jpg');
+                        if (sourceHandle) fd.append('source_handle', sourceHandle);
+                        const res = await fetch(`${API}/verify-image`, { method: 'POST', body: fd });
+                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                        data = await res.json();
+                    } else {
+                        const res = await fetch(`${API}/verify`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ claim: claimText, source_handle: sourceHandle || null })
+                        });
+                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                        data = await res.json();
+                    }
+                    clearInterval(stepInterval);
+                    displayResults(data);
+                } catch (err) {
+                    clearInterval(stepInterval);
+                    displayError(err.message);
+                }
+            }, 300);
+        }
+ 
+        // ── Render real API response ──
+        function displayResults(data) {
+            const loadingSection = document.getElementById('loading-section');
+            const resultSection  = document.getElementById('result-section');
+            loadingSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+ 
+            const verdict = data.verdict || 'nei';
+            const pct     = Math.round((data.confidence || 0) * 100);
+ 
+            // صورة مرفقة
+            const imgHolder = document.getElementById('result-image-holder');
+            const imgEl     = document.getElementById('result-attached-img');
+            if (uploadedImageBase64) {
+                imgEl.src = uploadedImageBase64;
+                imgHolder.classList.remove('hidden');
+            } else {
+                imgHolder.classList.add('hidden');
+            }
+ 
+            // النص المستخرج من صورة
+            const extractedWrap = document.getElementById('extracted-text-wrap');
+            if (extractedWrap) {
+                if (data.image_extracted_text) {
+                    document.getElementById('extracted-text-box').textContent = data.image_extracted_text;
+                    extractedWrap.classList.remove('hidden');
+                } else {
+                    extractedWrap.classList.add('hidden');
+                }
+            }
+ 
+            // نسبة الثقة + شريط التقدم + badge
+            document.getElementById('confidence-percentage').textContent = `${pct}%`;
+            const barEl = document.getElementById('result-progress-bar');
+            barEl.className = VERDICT_BAR[verdict] || VERDICT_BAR.nei;
+            setTimeout(() => { barEl.style.width = `${pct}%`; }, 100);
+ 
+            const badgeEl = document.getElementById('verdict-badge');
+            badgeEl.className = VERDICT_BADGE[verdict] || VERDICT_BADGE.nei;
+            document.getElementById('verdict-text').textContent = VERDICT_LABELS[verdict] || verdict;
+ 
+            // التبرير
+            const justBox = document.getElementById('justification-box');
+            justBox.className   = VERDICT_JUSTIFY[verdict] || VERDICT_JUSTIFY.nei;
+            justBox.textContent = data.justification || '—';
+ 
+            // حجج الدعم والرفض
+            document.getElementById('support-text').textContent   = data.defense_argument    || 'لا توجد حجة دعم.';
+            document.getElementById('rejection-text').textContent = data.prosecution_argument || 'لا توجد حجة رفض.';
+ 
+            // المصادر (citations)
+            const citationsSection = document.getElementById('citations-section');
+            const citationsList    = document.getElementById('citations-list');
+            const citations = (data.citations || []).slice(0, 4);
+            if (citations.length > 0 && citationsList) {
+                citationsList.innerHTML = citations.map(c => `
+                    <a href="${c.url || '#'}" target="_blank" class="block p-4 rounded-xl bg-slate-50 hover:bg-[#107A53]/5 border border-slate-100 hover:border-[#107A53]/20 transition-all duration-200">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">${c.source || 'مرجع موثق'}</span>
+                            <span class="text-[11px] text-slate-400">${c.date || ''}</span>
+                        </div>
+                        <h5 class="text-sm font-semibold text-slate-800 mt-2 hover:text-teal-950">${c.quote || c.url || '—'}</h5>
+                    </a>`).join('');
+                if (citationsSection) citationsSection.classList.remove('hidden');
+            } else {
+                if (citationsSection) citationsSection.classList.add('hidden');
+            }
+ 
+            // وقت الاستجابة
+            const elapsedEl = document.getElementById('elapsed-time');
+            if (elapsedEl) {
+                const loops = data.loop_count > 0 ? ` · ${data.loop_count} إعادة بحث` : '';
+                elapsedEl.textContent = `زمن الفحص: ${data.elapsed_seconds}s${loops}`;
+            }
+ 
+            setTimeout(() => resultSection.classList.remove('translate-y-4', 'opacity-0'), 50);
+        }
+ 
+        // ── Error state ──
+        function displayError(msg) {
+            const loadingSection = document.getElementById('loading-section');
+            const resultSection  = document.getElementById('result-section');
+            loadingSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+ 
+            document.getElementById('confidence-percentage').textContent = '—';
+            document.getElementById('result-progress-bar').style.width = '0%';
+            document.getElementById('verdict-badge').className = 'px-5 py-2 rounded-xl text-sm font-black flex items-center gap-2 bg-red-50 text-red-700 border border-red-100 shadow-sm';
+            document.getElementById('verdict-text').textContent = '! خطأ';
+            document.getElementById('justification-box').className = 'p-5 rounded-2xl leading-relaxed text-sm text-slate-700 border border-red-100 bg-red-50/20 border-r-4 border-r-red-500';
+            document.getElementById('justification-box').textContent = `تعذّر الاتصال بالسيرفر.\nتأكد من تشغيل: python tabayyan.py\n\nالتفاصيل: ${msg}`;
+            document.getElementById('support-text').textContent   = '';
+            document.getElementById('rejection-text').textContent = '';
+ 
+            setTimeout(() => resultSection.classList.remove('translate-y-4', 'opacity-0'), 50);
+        }
+ 
+        // Reset and go back to search
+        function resetToSearch() {
+            const resultSection = document.getElementById('result-section');
+            const searchSection = document.getElementById('search-section');
+ 
+            resultSection.classList.add('translate-y-4', 'opacity-0');
+            
+            setTimeout(() => {
+                resultSection.classList.add('hidden');
+                searchSection.classList.remove('hidden');
+                
+                // Clear input fields and files
+                document.getElementById('claim-text').value = '';
+                document.getElementById('source-input').value = '';
+                clearUploadedImage();
+                
+                // Trigger transition to scale up search smoothly
+                setTimeout(() => {
+                    searchSection.classList.remove('scale-95', 'opacity-0');
+                }, 50);
+ 
+            }, 400);
+        }
+    </script>
 </body>
 </html>
