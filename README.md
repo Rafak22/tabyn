@@ -9,7 +9,7 @@
 ![FAISS](https://img.shields.io/badge/FAISS-Vector%20DB-green)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-teal)
 
-**مشروع نهائي | معسكر الذكاء الاصطناعي التطبيقي | اكاديمية سدايا **
+**مشروع نهائي | معسكر الذكاء الاصطناعي التطبيقي | اكاديمية سدايا**
 
 </div>
 
