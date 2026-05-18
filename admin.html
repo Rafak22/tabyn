@@ -76,35 +76,13 @@ body { font-family: 'Tajawal', sans-serif; background: #F4F7F6; color: #1a1a1a; 
 .refresh-btn { background: #1D9E75; color: white; border: none; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-family: 'Tajawal', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 4px; }
 .refresh-btn:hover { background: #0F6E56; }
 @keyframes spin { to { transform: rotate(360deg); } }
-@keyframes ping { 75%, 100% { transform: scale(1.8); opacity: 0; } }
-@keyframes subtle-pulse {
-  0%, 100% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 4px rgba(16,122,83,0.5)); }
-}
 </style>
 </head>
 <body>
- 
+
 <div class="login-overlay" id="login-overlay">
   <div class="login-box">
-    <div class="login-icon" style="background:linear-gradient(135deg,#107A53,#1D9E75); position:relative; overflow:visible;">
-      <span style="position:absolute; width:56px; height:56px; border-radius:14px; background:rgba(29,158,117,0.25); animation:ping 1.5s cubic-bezier(0,0,0.2,1) infinite;"></span>
-      <svg style="width:36px;height:36px;position:relative;animation:subtle-pulse 2s infinite ease-in-out;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M2 12C4.5 7 8 4.5 12 4.5C16 4.5 19.5 7 22 12C19.5 17 16 19.5 12 19.5C8 19.5 4.5 17 2 12Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
-        <circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="1.2" stroke-dasharray="1 1"/>
-        <circle cx="12" cy="12" r="2.5" fill="white"/>
-        <circle cx="10.5" cy="10.5" r="0.9" fill="rgba(16,122,83,0.8)"/>
-        <circle cx="13.5" cy="13" r="0.4" fill="rgba(16,122,83,0.6)" opacity="0.8"/>
-        <path d="M5 6.5C4.2 4.5 3 3.5 3 3.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-        <path d="M8.5 5C8.5 3 8 1.5 8 1.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-        <path d="M12 4.5V1.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-        <path d="M15.5 5C15.5 3 16 1.5 16 1.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-        <path d="M19 6.5C19.8 4.5 21 3.5 21 3.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-        <path d="M6 17.5C5.3 19 4.5 20 4.5 20" stroke="white" stroke-width="1" stroke-linecap="round"/>
-        <path d="M12 19.5V21.5" stroke="white" stroke-width="1" stroke-linecap="round"/>
-        <path d="M18 17.5C18.7 19 19.5 20 19.5 20" stroke="white" stroke-width="1" stroke-linecap="round"/>
-      </svg>
-    </div>
+    <div class="login-icon"><i class="ti ti-shield-lock"></i></div>
     <div class="login-title">لوحة إدارة تبيَّن</div>
     <div class="login-sub">أدخل كلمة المرور للمتابعة</div>
     <input class="login-input" type="password" id="pwd-input" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()" />
@@ -112,29 +90,10 @@ body { font-family: 'Tajawal', sans-serif; background: #F4F7F6; color: #1a1a1a; 
     <div class="login-error" id="login-error">كلمة المرور غير صحيحة</div>
   </div>
 </div>
- 
+
 <nav class="nav">
-  <div class="nav-logo" style="cursor:pointer;" onmouseenter="this.querySelector('.logo-box').style.transform='rotate(6deg) scale(1.05)'" onmouseleave="this.querySelector('.logo-box').style.transform='rotate(0) scale(1)'">
-    <div style="position:relative; display:flex; align-items:center; justify-content:center;">
-      <span style="position:absolute; display:inline-flex; width:36px; height:36px; border-radius:12px; background:rgba(16,122,83,0.2); opacity:0.75; animation:ping 1.5s cubic-bezier(0,0,0.2,1) infinite;"></span>
-      <div class="logo-box" style="position:relative; width:48px; height:48px; background:linear-gradient(135deg,#107A53,#1D9E75); border-radius:16px; display:flex; align-items:center; justify-content:center; color:white; box-shadow:0 4px 14px rgba(16,122,83,0.3); transition:transform 0.5s ease;">
-        <svg style="width:32px;height:32px;animation:subtle-pulse 2s infinite ease-in-out;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 12C4.5 7 8 4.5 12 4.5C16 4.5 19.5 7 22 12C19.5 17 16 19.5 12 19.5C8 19.5 4.5 17 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-          <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1 1"/>
-          <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
-          <circle cx="10.5" cy="10.5" r="0.9" fill="#fff"/>
-          <circle cx="13.5" cy="13" r="0.4" fill="#fff" opacity="0.8"/>
-          <path d="M5 6.5C4.2 4.5 3 3.5 3 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M8.5 5C8.5 3 8 1.5 8 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M12 4.5V1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M15.5 5C15.5 3 16 1.5 16 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M19 6.5C19.8 4.5 21 3.5 21 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M6 17.5C5.3 19 4.5 20 4.5 20" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-          <path d="M12 19.5V21.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-          <path d="M18 17.5C18.7 19 19.5 20 19.5 20" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-        </svg>
-      </div>
-    </div>
+  <div class="nav-logo">
+    <div class="logo-icon"><i class="ti ti-shield-check"></i></div>
     <div>
       <div class="logo-text">تبيَّن</div>
       <div class="logo-sub">لوحة الإدارة</div>
@@ -145,11 +104,11 @@ body { font-family: 'Tajawal', sans-serif; background: #F4F7F6; color: #1a1a1a; 
     <button class="logout-btn" onclick="doLogout()"><i class="ti ti-logout"></i> خروج</button>
   </div>
 </nav>
- 
+
 <div class="main">
   <div class="page-title">لوحة الإدارة</div>
   <div class="page-sub" id="last-refresh">جاري تحميل البيانات...</div>
- 
+
   <div class="stats-grid">
     <div class="stat-card stat-green">
       <div class="stat-label">مقالات في الـ KB</div>
@@ -172,7 +131,7 @@ body { font-family: 'Tajawal', sans-serif; background: #F4F7F6; color: #1a1a1a; 
       <div class="stat-sub" id="server-sub">—</div>
     </div>
   </div>
- 
+
   <div class="update-card">
     <div class="update-title"><i class="ti ti-refresh"></i> تحديث التغريدات</div>
     <div class="update-sub">جلب أحدث التغريدات من Apify وإضافتها للـ KB بدون إعادة بناء</div>
@@ -203,7 +162,7 @@ body { font-family: 'Tajawal', sans-serif; background: #F4F7F6; color: #1a1a1a; 
       <div class="progress-log" id="progress-log"></div>
     </div>
   </div>
- 
+
   <div class="kb-grid">
     <div class="table-card" style="margin:0">
       <div class="table-header">مصادر قاعدة البيانات</div>
@@ -215,7 +174,7 @@ body { font-family: 'Tajawal', sans-serif; background: #F4F7F6; color: #1a1a1a; 
         <div class="kb-row"><span class="kb-label">آخر تحديث</span><span class="kb-value" id="last-tweet-update">—</span></div>
       </div>
     </div>
- 
+
     <div class="table-card" style="margin:0">
       <div class="table-header">
         الحسابات المشبوهة
@@ -235,11 +194,11 @@ body { font-family: 'Tajawal', sans-serif; background: #F4F7F6; color: #1a1a1a; 
     </div>
   </div>
 </div>
- 
+
 <script>
 const API = 'http://localhost:8000';
 const ADMIN_PASSWORD = 'tabayyun2026';
- 
+
 function doLogin() {
   const pwd = document.getElementById('pwd-input').value;
   if (pwd === ADMIN_PASSWORD) {
@@ -251,20 +210,20 @@ function doLogin() {
     document.getElementById('pwd-input').focus();
   }
 }
- 
+
 function doLogout() {
   document.getElementById('login-overlay').style.display = 'flex';
   document.getElementById('pwd-input').value = '';
   document.getElementById('login-error').style.display = 'none';
 }
- 
+
 async function loadSuspicious() {
   try {
     const res = await fetch(`${API}/suspicious`);
     const data = await res.json();
     document.getElementById('stat-suspicious').textContent = data.count;
     document.getElementById('suspicious-count').textContent = data.count + ' حساب';
- 
+
     if (data.count > 0) {
       document.getElementById('suspicious-body').innerHTML = `
         <table class="data-table">
@@ -300,10 +259,10 @@ async function loadSuspicious() {
     document.getElementById('suspicious-body').innerHTML = `<div class="empty-state"><p>تعذر تحميل البيانات</p></div>`;
   }
 }
- 
+
 async function loadDashboard() {
   document.getElementById('last-refresh').textContent = 'آخر تحديث: ' + new Date().toLocaleTimeString('ar-SA');
- 
+
   try {
     const res = await fetch(`${API}/healthz`);
     const data = await res.json();
@@ -313,23 +272,32 @@ async function loadDashboard() {
     document.getElementById('server-status').innerHTML = `<span class="status-badge offline"><i class="ti ti-circle-filled" style="font-size:10px"></i> متوقف</span>`;
     document.getElementById('server-sub').textContent = 'السيرفر غير شغال';
   }
- 
+
   document.getElementById('last-tweet-update').textContent = new Date().toLocaleDateString('ar-SA');
+
+  try {
+    const res2 = await fetch(`${API}/stats`);
+    const stats = await res2.json();
+    document.getElementById('stat-total').textContent = stats.total_claims.toLocaleString('en-US');
+  } catch(e) {
+    document.getElementById('stat-total').textContent = '—';
+  }
+
   loadSuspicious();
 }
- 
+
 async function updateTweets() {
   const btn = document.getElementById('update-btn');
   const box = document.getElementById('progress-box');
   const text = document.getElementById('progress-text');
   const log = document.getElementById('progress-log');
- 
+
   btn.disabled = true;
   btn.innerHTML = '<div style="width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;margin:0"></div> جاري التحديث...';
   box.style.display = 'block';
   text.textContent = 'جاري جلب التغريدات من Apify...';
   log.textContent = '';
- 
+
   try {
     const res = await fetch(`${API}/admin/update-tweets`, {
       method: 'POST',
@@ -348,11 +316,11 @@ async function updateTweets() {
     text.textContent = '❌ تعذر الاتصال بالسيرفر';
     log.textContent = 'تأكدي من تشغيل: python tabayyan.py';
   }
- 
+
   btn.disabled = false;
   btn.innerHTML = '<i class="ti ti-brand-twitter"></i> تحديث التغريدات الآن';
 }
- 
+
 async function rebuildDB() {
   if (!confirm('إعادة البناء الكامل تأخذ 10-15 دقيقة. هل تريدين المتابعة؟')) return;
   const btn = document.getElementById('rebuild-btn');
@@ -374,7 +342,7 @@ async function rebuildDB() {
   }
   btn.disabled = false;
 }
- 
+
 // تحديث تلقائي كل 30 ثانية
 setInterval(loadSuspicious, 30000);
 </script>
