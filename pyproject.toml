@@ -1,0 +1,44 @@
+[project]
+name = "tabayyun"
+version = "1.0.0"
+description = "نظام ذكي للتحقق من الأخبار العربية"
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    # Web Framework
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
+    "pydantic>=2.0.0",
+
+    # AI & LLM
+    "groq>=0.9.0",
+    "langgraph>=0.2.0",
+    "langchain-core>=0.3.0",
+
+    # Vector DB & Embeddings
+    "sentence-transformers>=3.0.0",
+    "faiss-cpu>=1.8.0",
+    "numpy>=1.26.0",
+
+    # Image Processing
+    "pillow>=10.0.0",
+
+    # Data Collection
+    "feedparser==6.0.11",
+    "requests==2.33.1",
+    "beautifulsoup4==4.12.3",
+    "lxml==5.2.1",
+    "tqdm==4.66.4",
+    "datasets>=4.0.0",
+]
+
+[project.scripts]
+tabayyun = "tabayyan:app"
+
+[tool.uv]
+dev-dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
