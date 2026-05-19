@@ -144,8 +144,32 @@ tabayyun_kb/
 
 ### المتطلبات
 - Python 3.12+
-- مفتاح Groq API مجاني من [console.groq.com](https://console.groq.com)
+### مفتاح Groq API
 
+النظام يستخدم **Groq API** — مجاني بالكامل.
+
+1. روح على [console.groq.com](https://console.groq.com) وسجّل حساب مجاني
+2. من القائمة اختر **API Keys** ← **Create API Key**
+3. انسخ المفتاح (يبدأ بـ `gsk_...`)
+4. افتح ملف `tabayyan.py` وعدّل هذا السطر:
+
+```python
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "ضع_مفتاحك_هنا")
+```
+
+أو عن طريق environment variable:
+
+```bash
+# Windows PowerShell
+$env:GROQ_API_KEY="gsk_YOUR_KEY_HERE"
+python tabayyan.py
+
+# Mac / Linux
+export GROQ_API_KEY="gsk_YOUR_KEY_HERE"
+python tabayyan.py
+```
+
+> المفتاح الموجود في الكود هو مفتاح تجريبي للتوضيح فقط — استبدليه بمفتاحك الخاص.
 ---
 
 ### الطريقة الأولى: uv (موصى بها)
