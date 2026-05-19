@@ -3,8 +3,7 @@ name = "tabayyun"
 version = "1.0.0"
 description = "نظام ذكي للتحقق من الأخبار العربية"
 readme = "README.md"
-requires-python = ">=3.12"
-
+requires-python = ">=3.10"
 dependencies = [
     # Web Framework
     "fastapi>=0.115.0",
