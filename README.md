@@ -111,6 +111,7 @@ tabayyun_kb/
 |-- kb_vector.py             # قاعدة البيانات المتجهية (FAISS)
 |-- update_kb.py             # تحديث التغريدات اليومي
 |-- run_kb.py                # تشغيل جميع المجمّعات
+|-- pyproject.toml           # إعدادات المشروع (uv)
 |
 |-- collectors/
 |   |-- trusted_sources.py   # جمع البيانات من المصادر الموثوقة
@@ -145,7 +146,38 @@ tabayyun_kb/
 - Python 3.12+
 - مفتاح Groq API مجاني من [console.groq.com](https://console.groq.com)
 
-### 1. تثبيت المكتبات
+---
+
+### الطريقة الأولى: uv (موصى بها)
+
+**uv** أداة حديثة وسريعة لإدارة بيئات Python، تثبّت كل المكتبات تلقائياً.
+
+#### 1. تثبيت uv
+
+```bash
+# Windows (PowerShell)
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Mac / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+#### 2. تشغيل المشروع
+
+```bash
+cd tabayyun_kb_v6/tabayyun_kb
+uv sync
+uv run python kb_vector.py --build
+uv run python tabayyan.py
+```
+
+> `uv sync` يقرأ `pyproject.toml` ويثبّت جميع المكتبات المطلوبة تلقائياً.
+
+---
+
+### الطريقة الثانية: pip (تقليدية)
+
+#### 1. تثبيت المكتبات
 
 ```bash
 pip install groq fastapi uvicorn pydantic langgraph langchain-core
@@ -153,7 +185,16 @@ pip install sentence-transformers faiss-cpu pillow requests
 pip install feedparser beautifulsoup4 lxml
 ```
 
-### 2. تحميل البيانات
+#### 2. تشغيل المشروع
+
+```bash
+python kb_vector.py --build
+python tabayyan.py
+```
+
+---
+
+### تحميل البيانات
 
 حمّل مجموعات البيانات من Kaggle وضعها في:
 
@@ -162,21 +203,7 @@ data/benchmarks/AFND/
 data/benchmarks/Classified Arabic News.csv
 ```
 
-### 3. بناء قاعدة البيانات (مرة واحدة فقط)
-
-```bash
-python kb_vector.py --build
-```
-
-### 4. تشغيل السيرفر
-
-```bash
-# Windows PowerShell
-$env:GROQ_API_KEY="gsk_YOUR_KEY_HERE"
-python tabayyan.py
-```
-
-### 5. فتح الواجهة
+### فتح الواجهة
 
 - المستخدم: افتح `app.html` في المتصفح
 - الأدمن: افتح `admin.html` (كلمة المرور: `tabayyun2026`)
@@ -190,6 +217,7 @@ python tabayyan.py
 | `POST` | `/verify` | التحقق من ادعاء نصي |
 | `POST` | `/verify-image` | التحقق من صورة |
 | `GET` | `/suspicious` | قائمة الحسابات المشبوهة |
+| `GET` | `/stats` | إجمالي الادعاءات المفحوصة |
 | `GET` | `/healthz` | حالة السيرفر |
 | `POST` | `/admin/update-tweets` | تحديث التغريدات |
 | `POST` | `/admin/rebuild-db` | إعادة بناء قاعدة البيانات |
@@ -231,11 +259,11 @@ python update_kb.py
 | الاسم | الدور |
 |-------|-------|
 | رفا الشريف | Knowledge Base + RAG Pipeline + واجهات المستخدم |
-| فاطمة الغامدي  | Agent Logic + LangGraph |
+| فاطمة الغامدي | Agent Logic + LangGraph |
 | سارة الخثعمي | LLM Integration + API |
 
-**المشرف**:  محمد بدار
-**الجهة**: اكاديمية سدايا 
+**المشرف**: محمد بدار
+**الجهة**: اكاديمية سدايا
 **السنة**: 2026
 
 ---
