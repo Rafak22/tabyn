@@ -3,7 +3,7 @@ name = "tabayyun"
 version = "1.0.0"
 description = "نظام ذكي للتحقق من الأخبار العربية"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = "==3.12.*"
 dependencies = [
     # Web Framework
     "fastapi>=0.115.0",
@@ -35,8 +35,11 @@ dependencies = [
 [project.scripts]
 tabayyun = "tabayyan:app"
 
-[tool.uv]
-dev-dependencies = []
+[dependency-groups]
+dev = []
+
+[tool.hatch.build.targets.wheel]
+include = ["tabayyan.py"]
 
 [build-system]
 requires = ["hatchling"]
