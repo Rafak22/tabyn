@@ -283,8 +283,8 @@ python update_kb.py
 | الاسم | الدور |
 |-------|-------|
 | رفا الشريف | Knowledge Base + RAG Pipeline + واجهات المستخدم |
-| فاطمة الغامدي | Agent Logic + LangGraph |
-| سارة الخثعمي | LLM Integration + API |
+| سارة الخثعمي | Agent Logic + LangGraph |
+| فاطمه الغامدي | LLM Integration + API |
 
 **المشرف**:حسان القوز - محمد بدار
 **الجهة**: اكاديمية سدايا
